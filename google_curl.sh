@@ -11,7 +11,7 @@ echo "(last search page; 10 results per page)"
 read total_pages
 total_pages=$((total_pages*10))
 while [ $count -lt $total_pages ]; do
-echo "https://www.google.de/search?tbs=li:1&q=allinurl:+-www+site:$domain&start=$count"
+echo "https://www.google.com/search?tbs=li:1&q=allinurl:+-www+site:$domain&start=$count"
 curl -A "Mozilla/4.0" -skLm 10 "https://www.google.com/search?tbs=li:1&q=allinurl:+-www+site:$domain&start=$count" | grep -oP '\/url\?q=.+?&amp' | sed 's|/url?q=||; s|&amp||' >> curl.txt
 count=$((count+10))
 done
