@@ -3,7 +3,10 @@ count=0
 domain=""
 echo "What domain would you like to expand?"
 read domain
+echo "Enter the starting page (0 for 1st page)"
+read count
 echo "How many search result pages?"
+echo "(last search page; 10 results per page)"
 read total_pages
 total_pages=$((total_pages*10))
 count=0
