@@ -9,7 +9,6 @@ echo "How many search result pages?"
 echo "(last search page; 10 results per page)"
 read total_pages
 total_pages=$((total_pages*10))
-count=0
 while [ $count -lt $total_pages ]; do
 echo "https://www.google.de/search?tbs=li:1&q=allinurl:+-www+site:$domain&start=$count"
 curl -A "Mozilla/4.0" -skLm 10 "https://www.google.de/search?tbs=li:1&q=allinurl:+-www+site:utica.edu&start=$count" | grep -oP '\/url\?q=.+?&amp' | sed 's|/url?q=||; s|&amp||' >> curl.txt
