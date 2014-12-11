@@ -16,3 +16,6 @@ curl -A "Mozilla/4.0" -skLm 10 "https://www.google.com/search?tbs=li:1&q=allinur
 count=$((count+10))
 done
 cat curl.txt | cut -d/ -f3 | sort | uniq > subdomains.txt
+echo "All (sub)domains found are in curl.txt"
+echo "All unique (sub)domains are in subdomains.txt"
+cat subdomains.txt
