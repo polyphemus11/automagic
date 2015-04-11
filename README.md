@@ -9,3 +9,6 @@ Script that automates specific google searches. This particular script is used t
 2.  CurlST.sh
 This file accepts either a single domain as input or a files of domains, a single domain per line.
 This script is helpful in determining server type based on the server response.  It will either output to a file (if inputting a file) or output to the terminal.
+
+3.  RandFileGen.py
+This script handles itself and guides you through the process of creating a specified number of files.  It will prompt for an upper and lower file size limit to randomly generate files sized wthin those bounds for the specified amount of files.  Additionally, the files are sequentlly names to make it easier to track if the script created all the files correctly.  Lastly, it randomly assigns a "file extension" to the name.  Of note, this is not a true file extenstion and known file types will have specific HEX signature.  This script does not go that granular.  http://en.wikipedia.org/wiki/List_of_file_signatures
