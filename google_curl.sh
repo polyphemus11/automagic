@@ -17,6 +17,6 @@ curl -A "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chr
 count=$((count+10))
 done
 cat curl.txt | cut -d/ -f3 | sort | uniq > subdomains.txt
-echo "All URLs found are in curl.txt"
+echo "All URLs found are in URLs.txt"
 echo "All unique (sub)domains are in subdomains.txt"
 cat subdomains.txt
