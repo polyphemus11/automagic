@@ -4,7 +4,7 @@ domain=""
 echo "What domain would you like to expand?"
 read domain
 echo "THIS SCRIPT WILL COMPOUND ON ANY PREVIOUS $domain-URLs.txt FILE"
-echo "TO MAXIMIZE POSSIBLE SUBDOMAINS FINDINGS"
+echo "TO MAXIMIZE THE POOL OF SUBDOMAIN RESULTS THE COULD BE FOUND"
 echo "Enter the starting page (0 for 1st page)"
 read count
 count=$((count*10))
