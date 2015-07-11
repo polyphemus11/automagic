@@ -3,6 +3,8 @@ count=0
 domain=""
 echo "What domain would you like to expand?"
 read domain
+echo "THIS SCRIPT WILL COMPOUND ON ANY PREVIOUS $domain-URLs.txt FILE"
+echo "TO MAXIMIZE POSSIBLE SUBDOMAINS FINDINGS"
 echo "Enter the starting page (0 for 1st page)"
 read count
 count=$((count*10))
@@ -12,10 +14,10 @@ read total_pages
 total_pages=$((total_pages*10))
 while [ $count -lt $total_pages ]; do
 echo "https://www.google.com/search?tbs=li:1&q=allinurl:+-www+site:$domain&start=$count"
-curl -A "Mozilla/5.0" -skLm 10 "https://www.google.com/search?tbs=li:1&q=allinurl:+-www+site:$domain&start=$count" | grep -oP '\/url\?q=.+?&amp' | sed 's|/url?q=||; s|&amp||' >> curl.txt
+curl -A "Mozilla/5.0" -skLm 10 "https://www.google.com/search?tbs=li:1&q=allinurl:+-www+site:$domain&start=$count" | grep -oP '\/url\?q=.+?&amp' | sed 's|/url?q=||; s|&amp||' >> $domain-URLs.txt
 count=$((count+10))
 done
-cat curl.txt | cut -d/ -f3 | sort | uniq > subdomains.txt
-echo "All (sub)domains found are in curl.txt"
-echo "All unique (sub)domains are in subdomains.txt"
-cat subdomains.txt
+cat $domain-URLs.txt | cut -d/ -f3 | sort | uniq > $domain-subdomains.txt
+echo "All URLs found are in $domain-URLs.txt"
+echo "All unique (sub)domains are in $domain-subdomains.txt"
+cat $domain-subdomains.txt
