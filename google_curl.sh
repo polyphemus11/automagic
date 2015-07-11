@@ -21,4 +21,5 @@ cat $domain-URLs.txt | cut -d/ -f3 | sort | uniq > $domain-subdomains.txt
 echo "All URLs found are in $domain-URLs.txt"
 echo "All unique (sub)domains are in $domain-subdomains.txt"
 cat $domain-subdomains.txt
+echo ""
 echo "have a nice day"
