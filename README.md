@@ -1,4 +1,4 @@
-custom-kali
+Introduction
 ===========
 These files should already have the execution bit on, but if not, you need to "chmod +x ./find_subdomains.sh" before you run it.
 
