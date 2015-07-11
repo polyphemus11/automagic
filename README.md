@@ -4,7 +4,12 @@ custom-kali
 This repo contains my custom scripts for my various pen-testing needs.  Scripts are added really as I find a need for them.
 
 1. google_curl.sh
-Script that automates specific google searches. This particular script is used to discover subdomains given a certain domain. Try DNS zone transfers first, but most likely the name server won't allow it, thus this script was created.  It can take quite a while, especially you you want to comb through thousands of search results.  I tried to speed it up by decreasing the max wait time, but google terminated the sessions.  Hypocritical of them as they crawl everyone else, but then they won't let you crawl them ;)
+It crawls google and will dump all subdomains found onto the console and into a text document.  You can run it over and over and you can manually pick up where you left off (i.e. I was on search result page 10, now, I want to crawl google search pages 11-25).  As you saw in the snapshot, there can be thousands of search results so this was my solution, to aggregate all that and extract the subdomain information. 
+
+Feel free to use it and let me know if you run into any issues.  It should already have the execution bit on, but if not, you need to "chmod +x ./find_subdomains.sh" before you run it.
+
+Lastly, and most important, test it with 1 search page first!  Google is  hypocritical and ironically will sense that you are crawling their results and start to throttle your crawls (probably sensitive about people copying their search results).  So test it once with a small amount of search pages, wait, then do one or two big crawls.  If you think google has started to limit your searches, don't worry, it's only for a limited time, and it's only for your robot, you just have to browse to google and if you see a captcha box prompting you to enter a code you can then bypass the block.  But then you'll need to wait a little bit to start crawling again.
+
 
 2.  CurlST.sh
 This file accepts either a single domain as input or a files of domains, a single domain per line.
