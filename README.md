@@ -4,6 +4,7 @@ custom-kali
 This repo contains my custom scripts for my various pen-testing needs.  Scripts are added really as I find a need for them.
 
 1. google_curl.sh
+
 It crawls google and will dump all subdomains found onto the console and into a text document.  You can run it over and over and you can manually pick up where you left off (i.e. I was on search result page 10, now, I want to crawl google search pages 11-25).  As you saw in the snapshot, there can be thousands of search results so this was my solution, to aggregate all that and extract the subdomain information. 
 
 Feel free to use it and let me know if you run into any issues.  It should already have the execution bit on, but if not, you need to "chmod +x ./find_subdomains.sh" before you run it.
@@ -12,8 +13,10 @@ Lastly, and most important, test it with 1 search page first!  Google is  hypocr
 
 
 2.  CurlST.sh
+
 This file accepts either a single domain as input or a files of domains, a single domain per line.
 This script is helpful in determining server type based on the server response.  It will either output to a file (if inputting a file) or output to the terminal.
 
 3.  RandFileGen.py
+
 This script handles itself and guides you through the process of creating a specified number of files.  It will prompt for an upper and lower file size limit to randomly generate files wthin those bounds for the specified amount of files.  Additionally, the files are sequentially named to make it easier to track if the script created all the files correctly as well as ensuring unique file names.  Lastly, it randomly assigns a "file extension" to the name.  Of note, this is not a true file extenstion as known file types will have specific HEX signatures.  This script does not go that granular.  http://en.wikipedia.org/wiki/List_of_file_signatures
