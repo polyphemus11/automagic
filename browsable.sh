@@ -1,3 +1,4 @@
+#work in progress
 #this script turns an smb created file into a file that can be browsed
 #when a file is created on a mac or windows it does not associated the 
 #correct permissions and therfore does not add the correct www-data
