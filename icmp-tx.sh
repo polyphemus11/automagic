@@ -7,6 +7,7 @@ do
         case "${option}"
         in
                 h) echo "
+#-b - base64 encode file (makes the file significantly bigger, taking much longer to transmit)
 #-h - this help mess
 #-c - display a list of ICMP codes
 #\$1 - destination IP
@@ -58,11 +59,11 @@ Type    Name                                    Reference
  39     SKIP                                    [Markson]
  40     Photuris                                [Simpson]"
 exit;;
-        esac
+esac
 done
-base64 -w 0 $3 > ./.target.base64
+#base64 -w 0 $3 > ./.target;;
 while true; do
-        if hping3 $1 --icmp --sign $2 --file ./.target.base64 -d $4 -u -C $5 2>&1 | grep -q --line-buffered -m 1 EOF; then
+        if hping3 $1 --icmp --sign $2 --file $3 -d $4 -u -C $5 2>&1 | grep -q --line-buffered -m 1 EOF; then
          echo "EOF Reached"
          exit
         fi
