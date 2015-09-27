@@ -21,3 +21,7 @@ RandFileGen.py
 ===========
 
 This script handles itself and guides you through the process of creating a specified number of files.  It will prompt for an upper and lower file size limit to randomly generate files wthin those bounds for the specified amount of files.  Additionally, the files are sequentially named to make it easier to track if the script created all the files correctly as well as ensuring unique file names.  Lastly, it randomly assigns a "file extension" to the name.  Of note, this is not a true file extenstion as known file types will have specific HEX signatures.  This script does not go that granular.  http://en.wikipedia.org/wiki/List_of_file_signatures
+
+ICMP Transfers
+===========
+To use the ICMP transfer files, you must first start the receiver script, then the sender.  The sender will terminate with a 'EOF' string and stop sending data.  When that occurs, the receiving end must press "Ctrl-C" to exit the loop and gracefully shutdown the capture file.  To view the help info (really it's just a syntax help list), type the script followed by a '-h'.
