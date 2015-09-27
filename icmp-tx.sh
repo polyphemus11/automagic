@@ -68,4 +68,4 @@ while true; do
          exit
         fi
 done
-rm ./.target.base64
+rm ./.target
