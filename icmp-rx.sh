@@ -1,14 +1,12 @@
 #!/bin/bash
-#$1 - sender IP
-#$2 - signature
-#$3 - interface
-#$4 - plain text file to save as
+#use the '-h' option to view the help (syntax) file
 #Usage: hping3 [sender ip] --listen [signature] -I [interface] > [file]
 while getopts h option
 do
         case "${option}"
         in
                 h) echo "
+#-h - this help mess
 #\$1 - sending IP
 #\$2 - signature
 #\$3 - interface
