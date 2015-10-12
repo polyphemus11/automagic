@@ -106,10 +106,10 @@ echo "
 +++++++++++++++++Scavenger: DNS File Transfer and Receiving+++++++++++++++++
 -h  -----  This help mess
 -v  -----  verbose mode
--z  -----  version
+-z  -----  version/about
 *************Transmit Options*************
 -t  -----  You want to set up file transfer via the DNS protocol
--f  -----  The input file to transfer
+-f  -----  The input file to transfer; also takes in stdin '-'.  See example.
 -d  -----  The domain to use as the lookup string
 -q  -----  The timeout delay (sec) between DNS queries
 -s  -----  Destination server IP address
@@ -122,8 +122,10 @@ echo "
 Examples:
 ----|Transfer|----
 Required flags: f,d,q,s,t
+
 dftx.sh -f [inputfile] -d [domain] -q [dns query delay] -s [destination server IP] -t
 dftx.sh -f ./stegofile.jpg -d cyber.com -q 5 -s 8.8.8.8 -t
+echo "secret message" | ./scavenger -f - -d cyber.com -q 0 -s 8.8.8.8 -t
 
 ----|Receiver (On 8.8.8.8 machine from previous ex.)|---- 
 Required flags: i,f,p,d,r
@@ -131,16 +133,24 @@ Required flags: i,f,p,d,r
 dftx.sh -i [listening interface] -f [save-as name] -p [sender IP] -d [domain to listen for] -r
 dftx.sh -i eth0 -f ./stegofile.jpg -p 10.0.1.5 -d cyber.com -r
 
-Note: you must have a receiver setup on the desitination server's side to catch the DNS queries,
+Note1: You must have a receiver setup on the destination server's side to catch the DNS queries,
 prior to sending the traffic.
+Note2: You may need to preceed the script with sudo.
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 }
 function versioninfo {
 echo "
-Scavenger v1.0.0 Copyright (C) 2015 
+*****************Scavenger*****************
+Scavenger is a script that leverages base64 encoding to transmit
+contents via the DNS protocol.
+
+Scavenger v1.0.6 Copyright (C) 2015 
 This program comes with ABSOLUTELY NO WARRANTY;
 This is free software, and you are welcome to redistribute it
-under certain conditions;"
+under certain conditions
+
+Last Updated: 10/12/2015
+"
 exit
 }
 arg="$*"
