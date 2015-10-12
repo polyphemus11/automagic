@@ -18,8 +18,12 @@ fi
 exit
 }
 function timecount {
+if [[ $stdin == "true" ]]; then
+        tput cup 0 0
+        echo -ne "Unable to estimate stream completion time... "
+else
 declare -i size=$(du -b $file | cut -f1)
-declare -i num=$(expr $size \* 2 \* 2 / 96)	#2 secs per 96 byte query, * 2 queries
+declare -i num=$(expr $size \* 2 \* 2 / 96)     #2 secs per 96 byte query, * 2 queries
 #declare -i sec=$(expr $size % 60)
 #declare -i min=$(expr $totalsec / 60)
 
@@ -47,6 +51,7 @@ declare -i day=0
     tput cup 0 0
     echo -ne "Current Date & Time: $(date)  Est. Completion Time in: "
     echo "$day"d "$hour"h "$min"m "$sec"s
+fi
 }
 function dnstransfer {
         if [[ "$arg" != *-f* ]] || [[ "$arg" != *-q* ]] || [[ "$arg" != *-s* ]] || [[ "$arg" != *-d* ]]; then
@@ -160,7 +165,12 @@ do
 	case $option in	
 	h|\?) helpmenu
 	exit;;
-	f) file="$OPTARG";;
+        f)      if [[ "$OPTARG" = "-" ]]; then
+                        file="${VAR:-/dev/stdin}"
+                        stdin="true"
+                else
+                        file="$OPTARG"
+                fi;;
 	d) domain="$OPTARG";;
 	q) timeout="$OPTARG";;
 	s) serverip="$OPTARG";;
