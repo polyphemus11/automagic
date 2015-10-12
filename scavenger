@@ -20,7 +20,7 @@ exit
 function timecount {
 if [[ $stdin == "true" ]]; then
         tput cup 0 0
-        echo -ne "Unable to estimate stream completion time... "
+        echo "Unable to estimate stream completion time... "
 else
 declare -i size=$(du -b $file | cut -f1)
 declare -i num=$(expr $size \* 2 \* 2 / 96)     #2 secs per 96 byte query, * 2 queries
