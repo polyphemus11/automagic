@@ -62,7 +62,7 @@ function dnstransfer {
         else
 	clear
         base64 -w 63 $file > ./.temp1
-        echo 'EOF' >> ./.temp1		#comment this out if you do not want to add the EOF linel; use Ctrl-C to exit receiver loop
+        echo 'EOF' >> ./.temp1		#comment this out if you do not want to add the EOF line; use Ctrl-C to exit receiver loop
         sed -i 's/+/?/g' ./.temp1
 	clear;timecount &
 	while IFS= read -r line || [ -n "$line" ]; do
