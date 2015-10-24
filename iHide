@@ -13,9 +13,10 @@ if [[ "$arg" != *-e* ]] || [[ "$arg" != *-s* ]] || [[ "$arg" != *-g* ]] || [[ "$
                 exit
         else
 			hping3 $sflag --listen $signature -I $iface > /tmp/temp &
-			if tail -f -n 1 -c 5 /tmp/temp | grep -m 1 --line-buffered $eof; then
+			if tail -f -n 1 -c 5 /tmp/temp | grep -m 1 -o --line-buffered $eof; then
 			#kill -2 $(ps aux | grep hping3 | grep -v "grep hping3" | awk '{print $2}') > /dev/null
-			cp /tmp/temp $file 
+			base64 -d /tmp/temp > $file
+			#cp /tmp/temp $file 
 			sed -i "s/[\x0].*//g" $file; sed -i "/$eof.*/q" $file;  sed -i "/$eof/d" $file
 			cleanup
 			fi
@@ -32,49 +33,12 @@ if [[ "$arg" != *-d* ]] || [[ "$arg" != *-s* ]] || [[ "$arg" != *-f* ]] || [[ "$
 			echo "EOF String: $eof_string  ; use with the -e flag w/receiver"
 			echo -n "Press any key to continue..."
 			read
-			echo
-			cp $file /tmp/temp
+			base64 -w 60 $file > /tmp/temp
+			#cp $file /tmp/temp -f
 			echo $eof_string >> /tmp/temp
 			echo "Transferring data.  The receiver script will exit when finished."
-				if hping3 $dflag --icmp --sign $sflag --file /tmp/temp -d $size -u -C $code 2>&1 | grep -q --line-buffered -m 1 EOF; then
+				if hping3 $dflag --icmp --sign $sflag --file /tmp/temp -d $size -u -C $code 2>&1 | grep -q -o --line-buffered -m 1 EOF; then
 				echo EOF Reached
-				cleanup
-				fi
-fi
-}function icmpreceive {
-if [[ "$arg" != *-e* ]] || [[ "$arg" != *-s* ]] || [[ "$arg" != *-g* ]] || [[ "$arg" != *-i* ]] || [[ "$arg" != *-f* ]] || [[ "$arg" != *-r* ]]; then
-                echo "Not enough flags/switches"
-                echo "Run the -h command to view the help file"
-                echo "Required flags: e,s,g,i,f,r"
-                exit
-        else
-			hping3 $sflag --listen $signature -I $iface > /tmp/temp &
-			if tail -f -n 1 -c 5 /tmp/temp | grep -m 1 --line-buffered $eof; then
-			#kill -2 $(ps aux | grep hping3 | grep -v "grep hping3" | awk '{print $2}') > /dev/null
-			cp /tmp/temp $file -f
-			sed -i "s/[\x0].*//g" $file; sed -i "/$eof.*/q" $file;  sed -i "/$eof/d" $file
-			cleanup
-			fi
-fi
-}
-function icmptransfer {
-if [[ "$arg" != *-d* ]] || [[ "$arg" != *-s* ]] || [[ "$arg" != *-f* ]] || [[ "$arg" != *-z* ]] || [[ "$arg" != *-c* ]] || [[ "$arg" != *-t* ]]; then
-                echo "Not enough flags/switches"
-                echo "Run the -h command to view the help file"
-                echo "Required flags: d,s,f,z,c,t"
-                exit
-        else
-			eof_string=$(cat /dev/urandom | tr -dc '_A-Z-a-z-0-9' | head -c 8)
-			echo "EOF String: $eof_string  ; use with the -e flag w/receiver"
-			echo -n "Press any key to continue..."
-			read
-			echo
-			cp $file /tmp/temp
-			echo $eof_string >> /tmp/temp
-			echo "Transferring data.  The receiver script will exit when finished."
-				if hping3 $dflag --icmp --sign $sflag --file /tmp/temp -d $size -u -C $code 2>&1 | grep -q --line-buffered -m 1 EOF; then
-				kill -2 $(ps aux | grep hping3 | grep -v "grep hping3" | awk '{print $2}') > /dev/null
-				echo $eof_string Reached
 				cleanup
 				fi
 fi
