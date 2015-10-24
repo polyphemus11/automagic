@@ -51,7 +51,7 @@ if [[ "$arg" != *-e* ]] || [[ "$arg" != *-s* ]] || [[ "$arg" != *-g* ]] || [[ "$
 			hping3 $sflag --listen $signature -I $iface > /tmp/temp &
 			if tail -f -n 1 -c 5 /tmp/temp | grep -m 1 --line-buffered $eof; then
 			#kill -2 $(ps aux | grep hping3 | grep -v "grep hping3" | awk '{print $2}') > /dev/null
-			cp /tmp/temp $file 
+			cp /tmp/temp $file -f
 			sed -i "s/[\x0].*//g" $file; sed -i "/$eof.*/q" $file;  sed -i "/$eof/d" $file
 			cleanup
 			fi
