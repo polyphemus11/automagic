@@ -28,4 +28,4 @@ iHide scripts out the Hping3 application to transmit content over ICMP.  Run iHi
 
 Scavenger
 ===========
-Scavenger is a script that automate dig queries to transfer content over DNS.  Run Scavenger -h to view the help file.
+Scavenger is a script that automates dig queries to transfer content over DNS.  Run Scavenger -h to view the help file.
