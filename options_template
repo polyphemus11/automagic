@@ -1,0 +1,36 @@
+#!/bin/bash
+OPTIND=1
+function cleanup {
+}
+function helpmenu {
+}
+function versioninfo {
+}
+arg="$*"
+NUMARGS="$#"
+if [[ $arg == *"-v"* ]]; then
+	echo "Number of arguments: $NUMARGS"
+	echo "Arguments entered: $arg"
+fi
+#if you cannot have multiple flags at once use below
+#if [[ "$*" == *"-r"* ]] && [[ "$*" == *"-t"* ]]; then
+#	echo "
+#	=======================================================================
+#	ERROR: You can only select -t OR -r NOT both, that wouldn't make sense.
+#	======================================================================="
+#	echo "Try -h for the help menu"
+#	exit
+#fi
+#if you need to declare flag arguments, use below
+if [ $NUMARGS -eq 0 ]; then
+  helpmenu
+fi
+#use a colon after the flag that requires an argument
+while getopts "zhf:d:q:s:p:i:vtr" option;
+do
+	case $option in	
+	h|\?) helpmenu
+	exit;;
+	esac
+done
+shift $((OPTIND-1))
