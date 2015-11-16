@@ -31,6 +31,7 @@ do
 	case $option in	
 	h|\?) helpmenu
 	exit;;
+	f) variable="$OPTARG";;
 	esac
 done
 shift $((OPTIND-1))
