@@ -9,24 +9,31 @@ echo "have a nice day"
 exit
 }
 function gcurl {
-count=$((count*10))
-total_pages=$((total_pages*10))
-while [ $count -lt $total_pages ]; do
-        if [[ $arg == *"-v"* ]]; then
-                echo "curl -A \"$useragent\" -skLm 10 \"https://www.google.com/search?tbs=li:1&q=allinurl:+-www+site:$domain&start=$count\""
-        fi
-        curl -A "Mozilla/5.0" -skLm 10 "https://www.google.com/search?tbs=li:1&q=allinurl:+-www+site:$domain&start=$count" | grep -oP '\/url\?q=.+?&amp' | sed 's|/url?q=||; s|&amp||' >> $domainURLs
-        sleep $delay
-        count=$((count+10))
-done
-sed -i '/webcache.googleusercontent.com/d' $domainURLs
-cat "$domainURLs" | cut -d/ -f3 | sort | uniq > "$domainsubdomains"
-echo "Clear screen and show domains? (y/n)"; read -n 1 answer
-if [[ "$answer" == "y" ]]; then
-        clear
-        cat $domainsubdomains
+if [[ "$arg" != *-f* ]] || [[ "$arg" != *-d* ]] || [[ "$arg" != *-s* ]] || [[ "$arg" != *-p* ]] || [[ "$arg" != *-r* ]] || [[ "$arg" != *-u* ]] || [[ "$arg" != *-t* ]]; then
+                echo "Not enough flags/switches"
+                echo "Run the -h command to view the help file"
+                echo "Required flags: f,d,s,p,r,u,t"
+                exit
+else
+	count=$((count*10))
+	total_pages=$((total_pages*10))
+	while [ $count -lt $total_pages ]; do
+		if [[ $arg == *"-v"* ]]; then
+			echo "curl -A \"$useragent\" -skLm 10 \"https://www.google.com/search?tbs=li:1&q=allinurl:+-www+site:$domain&start=$count\""
+		fi
+		curl -A "Mozilla/5.0" -skLm 10 "https://www.google.com/search?tbs=li:1&q=allinurl:+-www+site:$domain&start=$count" | grep -oP '\/url\?q=.+?&amp' | sed 's|/url?q=||; s|&amp||' >> $domainURLs
+		sleep $delay
+		count=$((count+10))
+	done
+	sed -i '/webcache.googleusercontent.com/d' $domainURLs
+	cat "$domainURLs" | cut -d/ -f3 | sort | uniq > "$domainsubdomains"
+	echo "Clear screen and show domains? (y/n)"; read -n 1 answer
+	if [[ "$answer" == "y" ]]; then
+		clear
+		cat $domainsubdomains
+	fi
+	cleanup
 fi
-cleanup
 }
 function helpmenu {
 echo "********************GCURL********************
@@ -88,10 +95,15 @@ fi
 while getopts "hf:r:d:p:s:u:t:v" option;
 do
         case $option in
-        h|\?) helpmenu
-        exit;;
+        h|\?) helpmenu; exit;;
+		v)	if [[ $arg == "-v" ]]; then
+				versioninfo
+				exit
+			fi;;
         f) domainsubdomains="$OPTARG";;
         r) domainURLs="$OPTARG";;
+        d) domain="$OPTARG";;
+        p) total_pages="$OPTARG";;
         d) domain="$OPTARG";;
         p) total_pages="$OPTARG";;
         s) count="$OPTARG";;
@@ -104,3 +116,4 @@ do
         esac
 done
 shift $((OPTIND-1))
+gcurl
