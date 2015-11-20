@@ -51,13 +51,17 @@ exit
 function versioninfo {
 echo "
 *****************gcurl*****************
-gcurl is a tool that automates google searched and returns
-a list of all subdomain within the search.
-gcurl v0.4.0 Copyright (C) 2015
+gcurl is a tool that automates google searches and returns
+a list of all subdomains within the search.  It is used to
+determine which subdomains are readily visibly by search engines
+like google and can also be used to find public facing assets
+of a given domain (that google has indexed).
+
+gcurl v1.0.0 Copyright (C) 2015
 This program comes with ABSOLUTELY NO WARRANTY;
 This is free software, and you are welcome to redistribute it
 under certain conditions
-Last Updated: 11/15/2015
+Last Updated: 11/20/2015
 "
 exit
 }
