@@ -47,7 +47,7 @@ Options:
  -r     Rolling file to store URLs.  Used to increase potential results over.
         a series of gcurl executions or can be used to resume searching after.
         previous results.  Must know final search page to be completely effective.
- -u     Define a user agent string.  Maybe Mozilla/4.0?
+  -u     Define a user agent string.  Maybe Mozilla/5.0? ('-' for Mozilla/4.0 default)
  -t     Timeout (sec) for a delay between gcurl searches.
  -v     Verbose mode.  Shows amount of arguments and what they were.  Not much
         here.
