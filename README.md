@@ -29,3 +29,7 @@ iHide scripts out the Hping3 application to transmit content over ICMP.  Run iHi
 Scavenger
 ===========
 Scavenger is a script that automates dig queries to transfer content over DNS.  Run Scavenger -h to view the help file.
+
+Sniff_URL
+===========
+Sniff_URL retrieves domain requests off the wire.  The script searchs for the "Host" field and can combine instances to reduce numerous GET requests of the same domain.
