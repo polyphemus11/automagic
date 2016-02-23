@@ -32,4 +32,4 @@ Scavenger is a script that automates dig queries to transfer content over DNS.  
 
 Sniff_URL
 ===========
-Sniff_URL retrieves domain requests off the wire.  The script searchs for the "Host" field and can combine instances to reduce numerous GET requests of the same domain.
+Sniff_URL retrieves domain requests off the wire.  The script searchs for the "Host" field and can combine instances to reduce numerous GET requests of the same domain.  The script works best after you run a mitm script to "become the router."  Otherwise, you'll either be sniffing your own traffic or you'll need to find an Open Wifi network.
